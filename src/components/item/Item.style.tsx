@@ -5,7 +5,6 @@ display: flex;
 justify-content: space-between;
 flex-direction: column;
 width: 100%;
-/* border: 1px solid #c6c6c6; */
 border-radius: 10px;
 height: 100%;
 background-color: white;
@@ -17,6 +16,7 @@ box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 button {
     padding: 1rem 0;
     font-weight: 600;
+    color: #3f51b5;
 }
 img {
     max-height: 250px;
@@ -27,10 +27,20 @@ img {
 
 div {
     margin: 1rem;
-
     font-family: Arial, Helvetica, sans-serif;
     padding: 1rem;
     height: 100%;
+}
+p {
+    overflow-wrap: break-word;
+}
+h3 {
+    text-align: center;
+}
+
+h4 {
+    text-align: center;
+    color: #3f51b5;
 }
 
 `

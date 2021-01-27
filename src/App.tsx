@@ -8,6 +8,7 @@ import { Wrapper, StyledButton } from './App.styles';
 import { CartItemType } from './types';
 import Item from './components/item/Item';
 import Cart from './components/cart/Cart';
+import Navbar from './components/navbar/Navbar';
 
 const getProducts = async (): Promise<CartItemType[]> =>
   await (await fetch('https://fakestoreapi.com/products')).json();
@@ -20,20 +21,37 @@ function App() {
     getProducts
   );
 
-  const getTotalItems = (items: CartItemType[]) =>
-    items.reduce((acc: number, item) => acc + item.amount, 0);
-  
+
+
   const handleAddToCart = (clickedItem: CartItemType) => {
-    setCartItems((cartItems) : any => {
-      const alreadyInCart = cartItems.find(i => i.id === clickedItem.id)
+    setCartItems((cartItems) => {
+      const alreadyInCart = cartItems.find((i) => i.id === clickedItem.id);
       if (alreadyInCart) {
-        return cartItems.map(item => item.id === clickedItem.id ? { ...Item, amount: item.amount + 1 } : item)
+        return cartItems.map((item) =>
+          item.id === clickedItem.id
+            ? { ...item, amount: item.amount + 1 }
+            : item
+        );
       }
-      return [...cartItems, {...clickedItem, amount: 1}]
-    })
+      return [...cartItems, { ...clickedItem, amount: 1 }];
+    });
   };
 
-  const handleRemoveFromCart = () => null; 
+  const handleRemoveFromCart = (id: number) => {
+    setCartItems((prev) =>
+      prev.reduce((acc, item) => {
+        console.log(id);
+
+        if (item.id === id) {
+          if (item.amount === 1) return acc;
+          return [...acc, { ...item, amount: item.amount - 1 }];
+        } else {
+          return [...acc, item];
+        }
+      }, [] as CartItemType[])
+    );
+    console.log(cartItems);
+  };
 
   if (isLoading) return <LinearProgress />;
   if (error) return <div>Cant load products n ow...</div>;
@@ -49,13 +67,12 @@ function App() {
           cartItems={cartItems}
           addToCart={handleAddToCart}
           removeFromCart={handleRemoveFromCart}
+          setCartIsOpen={setCartIsOpen}
         />
       </Drawer>
-      <StyledButton name='cart' onClick={() => setCartIsOpen(!cartIsOpen)}>
-        <AddShoppingCart fontSize='large' />
-        <Badge badgeContent={getTotalItems(cartItems)} color='error'></Badge>
-      </StyledButton>
-      <Grid container spacing={3}>
+      <Navbar cartItems={cartItems} setCartIsOpen={setCartIsOpen} cartIsOpen={cartIsOpen}  />
+
+      <Grid container spacing={3} style={{position: "relative", marginTop: 48}}>
         {data?.map((item) => (
           <Grid item key={item.id} xs={12} sm={4}>
             <Item item={item} handleAddToCart={handleAddToCart} />
