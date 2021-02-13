@@ -50,7 +50,6 @@ function App() {
         }
       }, [] as CartItemType[])
     );
-    console.log(cartItems);
   };
 
   if (isLoading) return <LinearProgress />;
