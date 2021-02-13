@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 
-import { Drawer, LinearProgress, Grid, Badge } from '@material-ui/core';
-import { AddShoppingCart } from '@material-ui/icons';
+import { Drawer, LinearProgress, Grid } from '@material-ui/core';
 
-import { Wrapper, StyledButton } from './App.styles';
+import { Wrapper } from './App.styles';
 import { CartItemType } from './types';
 import Item from './components/item/Item';
 import Cart from './components/cart/Cart';
